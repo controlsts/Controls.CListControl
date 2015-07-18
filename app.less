@@ -18,17 +18,39 @@ body {
         font-size: 12px;
     }
 
-    .-group.-view {
+    #horizontal {
         background-color: black;
         width: 300px;
-        height: 300px;
+        height: 70px;
 
-        .txtSmall {
+        .-list-item {
             width: 200px;
             height: 70px;
             background-color: white;
             font-size: 20px;
             color: black;
+            &.horizontal {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    }
+
+    #vertical {
+        background-color: black;
+        width: 300px;
+        height: 300px;
+
+        .-list-item {
+            width: 300px;
+            height: 70px;
+            background-color: white;
+            font-size: 20px;
+            color: black;
+            &.horizontal {
+                width: 100px;
+                height: 100px;
+            }
         }
     }
 }

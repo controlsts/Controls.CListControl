@@ -2,43 +2,14 @@
 var gApp;
 (function (gApp) {
     var focus = Controls.makeNoneFocusable("-focus-info");
-    var data = [{
-        type: 'txtSmall',
-        text: 'Small text 1'
-    }, {
-        type: 'txtSmall',
-        text: 'Small text 2'
-    }, {
-        type: 'txtSmall',
-        text: 'Small text 3'
-    }, {
-        type: 'txtSmall',
-        text: 'Small text 4'
-    }, {
-        type: 'txtSmall',
-        text: 'Small text 5'
-    }, {
-        type: 'txtSmall',
-        text: 'Small text 6'
-    }, {
-        type: 'txtSmall',
-        text: 'Small text 7'
-    }, {
-        type: 'txtSmall',
-        text: 'Small text 8'
-    }, {
-        type: 'txtSmall',
-        text: 'Small text 9'
-    }, {
-        type: 'txtSmall',
-        text: 'Small text 10'
-    }, {
-        type: 'txtSmall',
-        text: 'Small text 11'
-    }, {
-        type: 'txtSmall',
-        text: 'Small text 12'
-    }];
+    var data = [];
+    for (var i = 0; i < 20; i++) {
+        data.push({
+            type: 'typeSamll',
+            text: 'Loem ipsum ' + i,
+            longText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque molestie, quam eget consectetur aliquet, sem ex rhoncus mi, in consequat erat ligula fermentum lorem. Proin tristique quam nec urna ultricies, ac placerat ipsum rutrum. Nulla at lorem condimentum, pretium ligula et, molestie metus. Nulla placerat vestibulum magna ac ultrices. Fusce vitae tempor dui. Nam pulvinar commodo pellentesque. Mauris dignissim tempor pharetra. Praesent nec fermentum lacus. Phasellus vehicula velit sem, in malesuada mauris ornare non. Aenean lacinia dolor at ex molestie, quis mattis metus pulvinar. Praesent aliquet elit id condimentum fermentum. In elit turpis, aliquam non pharetra eu, sodales sed sem. Curabitur volutpat ac arcu quis venenatis. In vel gravida quam.'
+        });
+    }
     var dummy = {
         _slFocusedDataItemChanged: function (aKeyNew, aItemNew, aElNew, aKeyOld, aItemOld, aElOld) {
             var p = document.createElement("p");
@@ -50,66 +21,45 @@ var gApp;
             debugger;
         }
     };
-    var list;
-    list = new Controls.CListControl(null);
-    list.setListData(data);
-    list.setItemHeight(70);
-    list.setAnimation(true);
-    list.setScrollScheme(5 /* EByFixed */);
-    list.connectFocusedDataItemChanged(dummy, "_slFocusedDataItemChanged", dummy._slFocusedDataItemChanged);
-    list.connectItemSelected(dummy, "_slItemSelected", dummy._slItemSelected);
-    list.setRedrawAfterOperation(true);
-    list.setDataDrawer(function (aKey, aItem, aEl) {
+    var listHorizontal;
+    listHorizontal = new Controls.CListControl(null);
+    listHorizontal.setId('horizontal');
+    listHorizontal.setListData(data);
+    listHorizontal.setItemWidth(100);
+    listHorizontal.setAnimation(true);
+    listHorizontal.setOrientation(2 /* EHorizontal */);
+    listHorizontal.setScrollScheme(5 /* EByFixed */);
+    listHorizontal.connectFocusedDataItemChanged(dummy, "_slFocusedDataItemChanged", dummy._slFocusedDataItemChanged);
+    listHorizontal.connectItemSelected(dummy, "_slItemSelected", dummy._slItemSelected);
+    listHorizontal.setRedrawAfterOperation(true);
+    listHorizontal.setDataDrawer(function (aKey, aItem, aEl) {
+        aEl.classList.add('horizontal');
+        aEl.classList.add(aItem.type);
+        aEl.style.opacity = '.5';
+        aEl.innerText = aKey + ": " + aItem.text;
+        return 2 /* KFocusAble */;
+    });
+    var listVertical;
+    listVertical = new Controls.CListControl(null);
+    listVertical.setId('vertical');
+    listVertical.setListData(data);
+    listVertical.setItemHeight(70);
+    listVertical.setAnimation(true);
+    listVertical.setScrollScheme(5 /* EByFixed */);
+    listVertical.connectFocusedDataItemChanged(dummy, "_slFocusedDataItemChanged", dummy._slFocusedDataItemChanged);
+    listVertical.connectItemSelected(dummy, "_slItemSelected", dummy._slItemSelected);
+    listVertical.setRedrawAfterOperation(true);
+    listVertical.setDataDrawer(function (aKey, aItem, aEl) {
         aEl.classList.add(aItem.type);
         aEl.style.opacity = '.5';
         aEl.innerText = aKey + ": " + aItem.text;
         return 2 /* KFocusAble */;
     });
     var root = new Controls.CLayoutGroupControl(document.body);
-    root.setOrientation(2 /* EHorizontal */);
-    root.setOwnedChildControls([list, focus]);
+    root.setOrientation(1 /* EVertical */);
+    root.setOwnedChildControls([listHorizontal, listVertical, focus]);
     root.draw();
     root.setActiveFocus();
-    //list.appendItem({
-    //    type: 'txtSmall',
-    //    text: 'Small 1 text!'
-    //});
-    //
-    //list.appendItem({
-    //    type: 'txtSmall',
-    //    text: 'Small 2 text@'
-    //});
-    //
-    //list.appendItem({
-    //    type: 'txtSmall',
-    //    text: 'Small 3 text@'
-    //});
-    //
-    //list.prependItem([{
-    //    type: 'txtSmall',
-    //    text: 'Prepended'
-    //}]);
-    //
-    //setTimeout(function () {
-    //    list.prependItem({
-    //        type: 'txtSmall',
-    //        text: '1 sec'
-    //    })
-    //}, 1000);
-    //
-    //setTimeout(function () {
-    //    list.insertItem(3, {
-    //        type: 'txtSmall',
-    //        text: '2 sec'
-    //    });
-    //}, 2000);
-    //
-    //setTimeout(function () {
-    //    list.appendItem({
-    //        type: 'txtSmall',
-    //        text: '5 sec'
-    //    })
-    //}, 5000);
     document.body.addEventListener('keydown', function (e) {
         var keyStr = e['keyIdentifier'];
         var handled = root.doKey(keyStr);
