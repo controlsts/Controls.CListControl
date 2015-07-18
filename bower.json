@@ -1,0 +1,20 @@
+{
+  "name": "Controls.CListControl",
+  "version": "0.0.0",
+  "homepage": "https://github.com/controlsts/Controls.CListControl",
+  "authors": [
+    "swcho <sungwoo.cho.dev@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "controls.ts": "https://github.com/controlsts/controls.ts.git",
+    "jquery": "~2.1.4"
+  }
+}

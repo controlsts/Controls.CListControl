@@ -1636,7 +1636,7 @@ module Controls {
             this._element.classList.add("-lay");
         }
 
-        /*protected*/ _doDraw(aRect: TRect, aDrawParam: { [key: string]: any; }) {
+        protected _doDraw(aRect: TRect, aDrawParam: { [key: string]: any; }) {
             var ret: HTMLElement[] = [];
             var i, len, el: HTMLElement;
             this.empty();
@@ -4882,10 +4882,18 @@ module Controls {
         }
     }
 
-    export function makeNoneFocusable(aId: string): CControl {
+    export function makeNoneFocusable(aId: string, aHtml?: string): CControl {
         var focusInfo = new CLayoutControl(null);
         focusInfo.setId(aId);
         focusInfo.setItemDrawers([]);
+        if (aHtml) {
+            focusInfo.setItemDrawers([
+                function(aElement: HTMLElement, aIndex: number) {
+                    aElement.innerHTML = aHtml;
+                    return TFocusInfo.KFocusNone;
+                }
+            ]);
+        }
         return focusInfo;
     }
 

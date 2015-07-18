@@ -8,36 +8,46 @@ body {
         border: 1px dashed blue;
     }
 
+    .-fd {
+        border: 1px dashed red;
+    }
+
     .-afd-leaf {
         border: 2px solid red;
     }
 
-    #-focus-info {
+    p {
+        margin: 0px;
+    }
+
+    #idNote {
         width: 300px;
-        height: 50px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px;
+    }
+
+    #idInfo {
+        width: 300px;
+        height: 20px;
+        line-height: 20px;
         font-size: 12px;
     }
 
     #horizontal {
-        background-color: black;
         width: 300px;
         height: 70px;
 
         .-list-item {
-            width: 200px;
+            width: 100px;
             height: 70px;
             background-color: white;
             font-size: 20px;
             color: black;
-            &.horizontal {
-                width: 100px;
-                height: 100px;
-            }
         }
     }
 
     #vertical {
-        background-color: black;
         width: 300px;
         height: 300px;
 
@@ -47,10 +57,6 @@ body {
             background-color: white;
             font-size: 20px;
             color: black;
-            &.horizontal {
-                width: 100px;
-                height: 100px;
-            }
         }
     }
 }

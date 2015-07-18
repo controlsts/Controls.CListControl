@@ -2,7 +2,8 @@
 
 module gApp {
 
-    var focus = Controls.makeNoneFocusable("-focus-info");
+    var note = Controls.makeNoneFocusable("idNote", "<p>Please use arrow keys</p>");
+    var focus = Controls.makeNoneFocusable("idInfo");
 
     var data = [];
     for (var i=0; i<20; i++) {
@@ -10,22 +11,23 @@ module gApp {
             type: 'typeSamll',
             text: 'Loem ipsum ' + i,
             longText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque molestie, quam eget consectetur aliquet, sem ex rhoncus mi, in consequat erat ligula fermentum lorem. Proin tristique quam nec urna ultricies, ac placerat ipsum rutrum. Nulla at lorem condimentum, pretium ligula et, molestie metus. Nulla placerat vestibulum magna ac ultrices. Fusce vitae tempor dui. Nam pulvinar commodo pellentesque. Mauris dignissim tempor pharetra. Praesent nec fermentum lacus. Phasellus vehicula velit sem, in malesuada mauris ornare non. Aenean lacinia dolor at ex molestie, quis mattis metus pulvinar. Praesent aliquet elit id condimentum fermentum. In elit turpis, aliquam non pharetra eu, sodales sed sem. Curabitur volutpat ac arcu quis venenatis. In vel gravida quam.'
-        })
+        });
     }
 
-    var dummy = {
-        _slFocusedDataItemChanged: function (aKeyNew: any, aItemNew: any, aElNew: HTMLElement,
-                                             aKeyOld: any, aItemOld: any, aElOld: HTMLElement) {
-            var p = document.createElement("p");
-            p.innerHTML = aItemNew.text;
-            var focusInfo = focus.getElement();
-            focusInfo.insertBefore(p, focusInfo.firstChild);
-        },
+    module Listener {
 
-        _slItemSelected: function (a, b, c) {
-            debugger
+        export function _slFocusedDataItemChanged(
+            aKeyNew: any, aItemNew: any, aElNew: HTMLElement,
+            aKeyOld: any, aItemOld: any, aElOld: HTMLElement) {
+            var focusInfo = focus.getElement();
+            focusInfo.innerHTML = 'Focused Item: ' + aItemNew.text;
         }
-    };
+
+        export function _slItemSelected(aControl: Controls.CControl, aIndex: number, aEl: HTMLElement) {
+            var focusInfo = focus.getElement();
+            focusInfo.innerHTML = 'Selected Item: ' + aEl.innerText;
+        }
+    }
 
     var listHorizontal: Controls.CListControl;
     listHorizontal = new Controls.CListControl(null);
@@ -35,8 +37,8 @@ module gApp {
     listHorizontal.setAnimation(true);
     listHorizontal.setOrientation(Controls.TParamOrientation.EHorizontal);
     listHorizontal.setScrollScheme(Controls.TParamScrollScheme.EByFixed);
-    listHorizontal.connectFocusedDataItemChanged(dummy, "_slFocusedDataItemChanged", dummy._slFocusedDataItemChanged);
-    listHorizontal.connectItemSelected(dummy, "_slItemSelected", dummy._slItemSelected);
+    listHorizontal.connectFocusedDataItemChanged(Listener, "_slFocusedDataItemChanged", Listener._slFocusedDataItemChanged);
+    listHorizontal.connectItemSelected(Listener, "_slItemSelected", Listener._slItemSelected);
     listHorizontal.setRedrawAfterOperation(true);
     listHorizontal.setDataDrawer(function (aKey:any, aItem:any, aEl:HTMLElement) {
         aEl.classList.add('horizontal');
@@ -53,8 +55,8 @@ module gApp {
     listVertical.setItemHeight(70);
     listVertical.setAnimation(true);
     listVertical.setScrollScheme(Controls.TParamScrollScheme.EByFixed);
-    listVertical.connectFocusedDataItemChanged(dummy, "_slFocusedDataItemChanged", dummy._slFocusedDataItemChanged);
-    listVertical.connectItemSelected(dummy, "_slItemSelected", dummy._slItemSelected);
+    listVertical.connectFocusedDataItemChanged(Listener, "_slFocusedDataItemChanged", Listener._slFocusedDataItemChanged);
+    listVertical.connectItemSelected(Listener, "_slItemSelected", Listener._slItemSelected);
     listVertical.setRedrawAfterOperation(true);
     listVertical.setDataDrawer(function (aKey:any, aItem:any, aEl:HTMLElement) {
         aEl.classList.add(aItem.type);
@@ -65,14 +67,13 @@ module gApp {
 
     var root = new Controls.CLayoutGroupControl(document.body);
     root.setOrientation(Controls.TParamOrientation.EVertical);
-    root.setOwnedChildControls([listHorizontal, listVertical, focus]);
+    root.setOwnedChildControls([note, focus, listHorizontal, listVertical]);
     root.draw();
     root.setActiveFocus();
 
     document.body.addEventListener('keydown', function (e) {
         var keyStr = e['keyIdentifier'];
         var handled = root.doKey(keyStr);
-        console.log(handled);
 
         var skip = {
             'Up': true,

@@ -1437,7 +1437,7 @@ var Controls;
             this._itemDrawers = null;
             this._element.classList.add("-lay");
         }
-        /*protected*/ CLayoutControl.prototype._doDraw = function (aRect, aDrawParam) {
+        CLayoutControl.prototype._doDraw = function (aRect, aDrawParam) {
             var ret = [];
             var i, len, el;
             this.empty();
@@ -4438,10 +4438,18 @@ var Controls;
         return CCarouselControl;
     })(CControl);
     Controls.CCarouselControl = CCarouselControl;
-    function makeNoneFocusable(aId) {
+    function makeNoneFocusable(aId, aHtml) {
         var focusInfo = new CLayoutControl(null);
         focusInfo.setId(aId);
         focusInfo.setItemDrawers([]);
+        if (aHtml) {
+            focusInfo.setItemDrawers([
+                function (aElement, aIndex) {
+                    aElement.innerHTML = aHtml;
+                    return 1 /* KFocusNone */;
+                }
+            ]);
+        }
         return focusInfo;
     }
     Controls.makeNoneFocusable = makeNoneFocusable;
