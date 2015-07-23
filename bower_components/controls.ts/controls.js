@@ -4453,5 +4453,152 @@ var Controls;
         return focusInfo;
     }
     Controls.makeNoneFocusable = makeNoneFocusable;
+    function fillControlParam(aControl, aParam) {
+        if (aParam.id) {
+            aControl.setId(aParam.id);
+        }
+        if (aParam.width) {
+            aControl.getElement().style.width = aParam.width + 'px';
+        }
+        if (aParam.height) {
+            aControl.getElement().style.height = aParam.height + 'px';
+        }
+        if (aParam.orientation) {
+            aControl.setOrientation(aParam.orientation);
+        }
+        if (aParam.padding) {
+            aControl.setPadding(aParam.padding);
+        }
+        if (aParam.margins) {
+            aControl.setMargins(aParam.margins);
+        }
+        if (aParam.childHAlign) {
+            aControl.setChildHAlign(aParam.childHAlign);
+        }
+        if (aParam.childVAlign) {
+            aControl.setChildVAlign(aParam.childVAlign);
+        }
+        if (aParam.itemWidth) {
+            aControl.setItemWidth(aParam.itemWidth);
+        }
+        if (aParam.itemHeight) {
+            aControl.setItemHeight(aParam.itemHeight);
+        }
+        if (aParam.scrollScheme) {
+            aControl.setScrollScheme(aParam.scrollScheme);
+        }
+        if (aParam.onItemSelected) {
+            aControl.connectItemSelected(aParam, 'onItemSelected', aParam.onItemSelected);
+        }
+        if (aParam.onFocusChanged) {
+            aControl.connectFocusChanged(aParam, 'onFocusChanged', aParam.onFocusChanged);
+        }
+    }
+    function LayoutControl(aParam) {
+        var layoutControl = new CLayoutControl(aParam.el || null);
+        fillControlParam(layoutControl, aParam);
+        layoutControl.setItemDrawers(aParam.itemDrawers || []);
+        return layoutControl;
+    }
+    Controls.LayoutControl = LayoutControl;
+    function ListControl(aParam) {
+        var list;
+        list = new Controls.CListControl(null);
+        fillControlParam(list, aParam);
+        if (aParam.data) {
+            list.setListData(aParam.data);
+        }
+        if (aParam.dataDrawer) {
+            list.setDataDrawer(function (aKey, aItem, aEl) {
+                aEl.classList.add(aItem.type);
+                aEl.style.opacity = '.5';
+                aEl.innerText = aKey + ": " + aItem.text;
+                return 2 /* KFocusAble */;
+            });
+        }
+        if (aParam.onFocusedDataItemChanged) {
+            list.connectFocusedDataItemChanged(aParam, 'onFocusedDataItemChanged', aParam.onFocusedDataItemChanged);
+        }
+        list.setAnimation(true);
+        list.setScrollScheme(5 /* EByFixed */);
+        list.setRedrawAfterOperation(true);
+        return list;
+    }
+    Controls.ListControl = ListControl;
+    function GridControl(aParam) {
+        var gridControl = new CGridControl(aParam.el || null);
+        fillControlParam(gridControl, aParam);
+        if (aParam.maxColCount) {
+            gridControl.setMaxColCount(aParam.maxColCount);
+        }
+        if (aParam.animation) {
+            gridControl.setAnimation(aParam.animation);
+        }
+        if (aParam.data) {
+            gridControl.setListData(aParam.data);
+        }
+        if (aParam.dataDrawer) {
+            gridControl.setDataDrawer(aParam.dataDrawer);
+        }
+        return gridControl;
+    }
+    Controls.GridControl = GridControl;
+    function CarouselControl(aParam) {
+        var carousel = new Controls.CCarouselControl(aParam.el || null);
+        fillControlParam(carousel, aParam);
+        carousel.setData(aParam.data);
+        carousel.setViewCount(aParam.viewCount);
+        carousel.setAnchorIndex(aParam.anchorIndex);
+        carousel.setDataDrawer(aParam.dataDrawer);
+        if (aParam.onStartToChange) {
+            carousel.connectStartToChange(aParam, "onStartToChange", aParam.onStartToChange);
+        }
+        if (aParam.maxKeyQueueCount) {
+            carousel.setMaxKeyQueueCount(aParam.maxKeyQueueCount);
+        }
+        if (aParam.animation) {
+            carousel.setAnimation(aParam.animation);
+        }
+        if (aParam.transparentAnchor) {
+            carousel.setTransparentAnchor(aParam.transparentAnchor);
+        }
+        if (aParam.drawEffect) {
+            carousel.setDrawEfect(aParam.drawEffect);
+        }
+        return carousel;
+    }
+    Controls.CarouselControl = CarouselControl;
+    function LayoutGroupControl(aParam) {
+        var layoutGroupControl = new Controls.CLayoutGroupControl(aParam.el || null);
+        fillControlParam(layoutGroupControl, aParam);
+        if (aParam.controls) {
+            layoutGroupControl.setOwnedChildControls(aParam.controls);
+        }
+        if (aParam.onChildFocusChanged) {
+            layoutGroupControl.connectChildFocusChanged(aParam, 'onChildFocusChanged', aParam.onChildFocusChanged);
+        }
+        return layoutGroupControl;
+    }
+    Controls.LayoutGroupControl = LayoutGroupControl;
+    function runRoot(aControl) {
+        aControl.draw();
+        aControl.setActiveFocus();
+        document.body.addEventListener('keydown', function (e) {
+            var keyStr = e['keyIdentifier'];
+            var handled = aControl.doKey(keyStr);
+            console.log(handled);
+            var skip = {
+                'Up': true,
+                'Down': true,
+                'Left': true,
+                'Right': true
+            };
+            if (skip[keyStr]) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        });
+    }
+    Controls.runRoot = runRoot;
 })(Controls || (Controls = {}));
 //# sourceMappingURL=controls.js.map

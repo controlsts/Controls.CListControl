@@ -14,78 +14,64 @@ module gApp {
         });
     }
 
-    module Listener {
-
-        export function _slFocusedDataItemChanged(
-            aKeyNew: any, aItemNew: any, aElNew: HTMLElement,
-            aKeyOld: any, aItemOld: any, aElOld: HTMLElement) {
-            var focusInfo = focus.getElement();
-            focusInfo.innerHTML = 'Focused Item: ' + aItemNew.text;
-        }
-
-        export function _slItemSelected(aControl: Controls.CControl, aIndex: number, aEl: HTMLElement) {
-            var focusInfo = focus.getElement();
-            focusInfo.innerHTML = 'Selected Item: ' + aEl.innerText;
-        }
-    }
-
-    var listHorizontal: Controls.CListControl;
-    listHorizontal = new Controls.CListControl(null);
-    listHorizontal.setId('horizontal');
-    listHorizontal.setListData(data);
-    listHorizontal.setItemWidth(100);
-    listHorizontal.setAnimation(true);
-    listHorizontal.setOrientation(Controls.TParamOrientation.EHorizontal);
-    listHorizontal.setScrollScheme(Controls.TParamScrollScheme.EByFixed);
-    listHorizontal.connectFocusedDataItemChanged(Listener, "_slFocusedDataItemChanged", Listener._slFocusedDataItemChanged);
-    listHorizontal.connectItemSelected(Listener, "_slItemSelected", Listener._slItemSelected);
-    listHorizontal.setRedrawAfterOperation(true);
-    listHorizontal.setDataDrawer(function (aKey:any, aItem:any, aEl:HTMLElement) {
-        aEl.classList.add('horizontal');
-        aEl.classList.add(aItem.type);
-        aEl.style.opacity = '.5';
-        aEl.innerText = aKey + ": " + aItem.text;
-        return Controls.TFocusInfo.KFocusAble;
+    var root = Controls.LayoutGroupControl({
+        el: document.body,
+        orientation: Controls.TParamOrientation.EVertical,
+        controls: [
+            note, focus,
+            Controls.ListControl({
+                id: 'horizontal',
+                itemWidth: 100,
+                animation: true,
+                orientation: Controls.TParamOrientation.EHorizontal,
+                scrollScheme: Controls.TParamScrollScheme.EByFixed,
+                onFocusedDataItemChanged: function (
+                    aKeyNew: any, aItemNew: any, aElNew: HTMLElement,
+                    aKeyOld: any, aItemOld: any, aElOld: HTMLElement) {
+                    var focusInfo = focus.getElement();
+                    focusInfo.innerHTML = 'Focused Item: ' + aItemNew.text;
+                },
+                onItemSelected: function (aControl: Controls.CControl, aIndex: number, aEl: HTMLElement) {
+                    var focusInfo = focus.getElement();
+                    focusInfo.innerHTML = 'Selected Item: ' + aEl.innerText;
+                },
+                data: data,
+                dataDrawer: function (aKey:any, aItem:any, aEl:HTMLElement) {
+                    aEl.classList.add('horizontal');
+                    aEl.classList.add(aItem.type);
+                    aEl.style.opacity = '.5';
+                    aEl.innerText = aKey + ": " + aItem.text;
+                    return Controls.TFocusInfo.KFocusAble;
+                }
+            }),
+            Controls.ListControl({
+                id: 'vertical',
+                itemHeight: 70,
+                animation: true,
+                orientation: Controls.TParamOrientation.EVertical,
+                scrollScheme: Controls.TParamScrollScheme.EByFixed,
+                onFocusedDataItemChanged: function (
+                    aKeyNew: any, aItemNew: any, aElNew: HTMLElement,
+                    aKeyOld: any, aItemOld: any, aElOld: HTMLElement) {
+                    var focusInfo = focus.getElement();
+                    focusInfo.innerHTML = 'Focused Item: ' + aItemNew.text;
+                },
+                onItemSelected: function (aControl: Controls.CControl, aIndex: number, aEl: HTMLElement) {
+                    var focusInfo = focus.getElement();
+                    focusInfo.innerHTML = 'Selected Item: ' + aEl.innerText;
+                },
+                data: data,
+                dataDrawer: function (aKey:any, aItem:any, aEl:HTMLElement) {
+                    aEl.classList.add('horizontal');
+                    aEl.classList.add(aItem.type);
+                    aEl.style.opacity = '.5';
+                    aEl.innerText = aKey + ": " + aItem.text;
+                    return Controls.TFocusInfo.KFocusAble;
+                }
+            })
+        ]
     });
 
-    var listVertical: Controls.CListControl;
-    listVertical = new Controls.CListControl(null);
-    listVertical.setId('vertical');
-    listVertical.setListData(data);
-    listVertical.setItemHeight(70);
-    listVertical.setAnimation(true);
-    listVertical.setScrollScheme(Controls.TParamScrollScheme.EByFixed);
-    listVertical.connectFocusedDataItemChanged(Listener, "_slFocusedDataItemChanged", Listener._slFocusedDataItemChanged);
-    listVertical.connectItemSelected(Listener, "_slItemSelected", Listener._slItemSelected);
-    listVertical.setRedrawAfterOperation(true);
-    listVertical.setDataDrawer(function (aKey:any, aItem:any, aEl:HTMLElement) {
-        aEl.classList.add(aItem.type);
-        aEl.style.opacity = '.5';
-        aEl.innerText = aKey + ": " + aItem.text;
-        return Controls.TFocusInfo.KFocusAble;
-    });
-
-    var root = new Controls.CLayoutGroupControl(document.body);
-    root.setOrientation(Controls.TParamOrientation.EVertical);
-    root.setOwnedChildControls([note, focus, listHorizontal, listVertical]);
-    root.draw();
-    root.setActiveFocus();
-
-    document.body.addEventListener('keydown', function (e) {
-        var keyStr = e['keyIdentifier'];
-        var handled = root.doKey(keyStr);
-
-        var skip = {
-            'Up': true,
-            'Down': true,
-            'Left': true,
-            'Right': true
-        };
-
-        if (skip[keyStr]) {
-            e.stopPropagation();
-            e.preventDefault();
-        }
-    });
+    Controls.runRoot(root);
 
 }
