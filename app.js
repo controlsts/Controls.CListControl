@@ -18,7 +18,7 @@ var gApp;
             note,
             focus,
             Controls.ListControl({
-                id: 'horizontal',
+                id: 'idHorizontal',
                 itemWidth: 100,
                 animation: true,
                 orientation: 2 /* EHorizontal */,
@@ -33,15 +33,16 @@ var gApp;
                 },
                 data: data,
                 dataDrawer: function (aKey, aItem, aEl) {
-                    aEl.classList.add('horizontal');
-                    aEl.classList.add(aItem.type);
-                    aEl.style.opacity = '.5';
-                    aEl.innerText = aKey + ": " + aItem.text;
+                    Controls.Item({
+                        el: aEl,
+                        className: 'horizontal',
+                        innerText: aItem.text
+                    });
                     return 2 /* KFocusAble */;
                 }
             }),
             Controls.ListControl({
-                id: 'vertical',
+                id: 'idVertical',
                 itemHeight: 70,
                 animation: true,
                 orientation: 1 /* EVertical */,
@@ -56,10 +57,17 @@ var gApp;
                 },
                 data: data,
                 dataDrawer: function (aKey, aItem, aEl) {
-                    aEl.classList.add('horizontal');
-                    aEl.classList.add(aItem.type);
-                    aEl.style.opacity = '.5';
-                    aEl.innerText = aKey + ": " + aItem.text;
+                    Controls.Item({
+                        el: aEl,
+                        className: 'vertical',
+                        children: [{
+                            className: 'title',
+                            innerText: aItem.text
+                        }, {
+                            className: 'desc',
+                            innerText: aItem.longText
+                        }]
+                    });
                     return 2 /* KFocusAble */;
                 }
             })

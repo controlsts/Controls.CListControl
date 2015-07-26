@@ -233,7 +233,7 @@ module Controls {
         aFocusable: HTMLElement[],
         aPrevFocusInfo?: TPrevFocusInfo,
         aPrevKeyStr?: string
-        ) {
+    ) {
         var i, len, el: HTMLElement, mapItem: TKeyMapItem, prevMapItem: TKeyMapItem = null;
         var startIndex: number = 0;
         for (i = 0, len = aFocusable.length; i < len; i++) {
@@ -278,7 +278,7 @@ module Controls {
         aFocusable: HTMLElement[],
         aPrevFocusInfo?: TPrevFocusInfo,
         aPrevKeyStr?: string
-        ) {
+    ) {
         var i, j, len, el: HTMLElement, mapItem: TKeyMapItem, prevMapItem: TKeyMapItem = null;
         var startIndex: number = 0;
         for (i = 0, len = aFocusable.length; i < len; i++) {
@@ -323,7 +323,7 @@ module Controls {
         aFocusable: HTMLElement[],
         aPrevFocusInfo?: TPrevFocusInfo,
         aPrevKeyStr?: string
-        ) {
+    ) {
         var i, j, len;
         var el: HTMLElement;
         var mapItem: TKeyMapItem;
@@ -376,7 +376,7 @@ module Controls {
         aFocusable: HTMLElement[],
         aPrevFocusInfo?: TPrevFocusInfo,
         aPrevKeyStr?: string
-        ) {
+    ) {
         var i, j, cnt: number = aFocusable.length, el: HTMLElement;
         var getPos = function (aElement: HTMLElement) {
             var top = aElement.offsetTop;
@@ -2477,33 +2477,33 @@ module Controls {
         }
 
         /*protected*/ _doUpdateItems(aKey: any[], aItem: any[]): boolean {
-            return true;
-        }
+        return true;
+    }
 
         /*protected*/ _doInsertItems(aKey: any, aItems: TDrawingData[]): void {
-            var i, len;
-            for (i = 0, len = aItems.length; i < len; i += 1) {
-                this._handleNewItem(aItems[i], true);
-            }
+        var i, len;
+        for (i = 0, len = aItems.length; i < len; i += 1) {
+            this._handleNewItem(aItems[i], true);
         }
+    }
 
         /*protected*/ _doRemoveItems(aKeys: any[]) {
-            var i, iLen, k, item: TDrawingData, j, jLen, rowList: TDrawingData[];
-            for (i = 0, iLen = aKeys.length; i < iLen; i += 1) {
-                k = aKeys[i];
-                item = this._drawingDataCache[k];
-                delete this._drawingDataCache[k];
-                if (item.rowIndex !== undefined) {
-                    rowList = this._drawingDataByRow[item.rowIndex];
-                    for (j = 0, jLen = rowList.length; j < jLen; j += 1) {
-                        if (rowList[j].key == k) {
-                            rowList.slice(j, 1);
-                            break;
-                        }
+        var i, iLen, k, item: TDrawingData, j, jLen, rowList: TDrawingData[];
+        for (i = 0, iLen = aKeys.length; i < iLen; i += 1) {
+            k = aKeys[i];
+            item = this._drawingDataCache[k];
+            delete this._drawingDataCache[k];
+            if (item.rowIndex !== undefined) {
+                rowList = this._drawingDataByRow[item.rowIndex];
+                for (j = 0, jLen = rowList.length; j < jLen; j += 1) {
+                    if (rowList[j].key == k) {
+                        rowList.slice(j, 1);
+                        break;
                     }
                 }
             }
         }
+    }
     }
 
     export interface FRowIndexChanged {
@@ -4140,19 +4140,19 @@ module Controls {
             return itemEl;
         }
         /*protected*/ _doDraw(aRect: TRect, aDrawParam: { [key: string]: any; }): HTMLElement[] {
-            var ret: HTMLElement[];
-            this.setTransition(false);
-            if (this._dataChanged) {
-                if (this.getOrientation() == TParamOrientation.EHorizontal) {
-                    this._keyMapBuilder = KBuilderLeftRight;
-                } else {
-                    this._keyMapBuilder = KBuilderTopDown;
-                }
-                this._doDrawItems();
+        var ret: HTMLElement[];
+        this.setTransition(false);
+        if (this._dataChanged) {
+            if (this.getOrientation() == TParamOrientation.EHorizontal) {
+                this._keyMapBuilder = KBuilderLeftRight;
+            } else {
+                this._keyMapBuilder = KBuilderTopDown;
             }
-            ret = [this._anchorEl];
-            return ret;
+            this._doDrawItems();
         }
+        ret = [this._anchorEl];
+        return ret;
+    }
         private _doDrawItems(): HTMLElement {
             var align: TParamOrientation = this.getOrientation();
             var menuLen: number = this._cirMenuItems.length();
@@ -4886,7 +4886,7 @@ module Controls {
         var focusInfo = new CLayoutControl(null);
         focusInfo.setId(aId);
         focusInfo.setItemDrawers([]);
-          if (aHtml) {
+        if (aHtml) {
             focusInfo.setItemDrawers([
                 function(aElement: HTMLElement, aIndex: number) {
                     aElement.innerHTML = aHtml;
@@ -4909,7 +4909,6 @@ module Controls {
         childVAlign?: Controls.TParamVAlign;
         itemWidth?: number;
         itemHeight?: number;
-        scrollScheme?: TParamScrollScheme;
         onItemSelected?: FItemSelected;
         onFocusChanged?: FFocusChanged;
         onFocusGained?: FFocusGained;
@@ -4957,10 +4956,6 @@ module Controls {
             aControl.setItemHeight(aParam.itemHeight);
         }
 
-        if (aParam.scrollScheme) {
-            aControl.setScrollScheme(aParam.scrollScheme);
-        }
-
         if (aParam.onItemSelected) {
             aControl.connectItemSelected(aParam, 'onItemSelected', aParam.onItemSelected);
         }
@@ -4997,12 +4992,7 @@ module Controls {
         }
 
         if (aParam.dataDrawer) {
-            list.setDataDrawer(function (aKey:any, aItem:any, aEl:HTMLElement) {
-                aEl.classList.add(aItem.type);
-                aEl.style.opacity = '.5';
-                aEl.innerText = aKey + ": " + aItem.text;
-                return Controls.TFocusInfo.KFocusAble;
-            });
+            list.setDataDrawer(aParam.dataDrawer);
         }
 
         if (aParam.onFocusedDataItemChanged) {
@@ -5049,6 +5039,7 @@ module Controls {
     export interface TCarouselControl extends TControl {
         data: any[];
         dataDrawer: FCarouselDataDrawer;
+        anchorDrawer?: FCarouselAnchorDrawer;
         viewCount: number;
         anchorIndex: number;
         itemWidth: number;
@@ -5081,6 +5072,9 @@ module Controls {
         }
         if (aParam.drawEffect) {
             carousel.setDrawEfect(aParam.drawEffect);
+        }
+        if (aParam.anchorDrawer) {
+            carousel.setAnchorDrawer(aParam.anchorDrawer);
         }
         return carousel;
     }
@@ -5125,6 +5119,37 @@ module Controls {
                 e.preventDefault();
             }
         });
+    }
+
+    export interface TItem {
+        el?: HTMLElement;
+        tagName?: string;
+        className?: string;
+        innerText?: string;
+        backgroundColor?: string;
+        children?: TItem[];
+    }
+
+    export function Item(aParam: TItem): HTMLElement {
+        var el = aParam.el || document.createElement(aParam.tagName || 'div');
+
+        if (aParam.className) {
+            el.classList.add(aParam.className);
+        }
+        if (aParam.innerText) {
+            el.innerText = aParam.innerText;
+        }
+        if (aParam.backgroundColor) {
+            el.style.backgroundColor = aParam.backgroundColor;
+        }
+
+        if (aParam.children) {
+            aParam.children.forEach(function(child) {
+                el.appendChild(Item(child));
+            });
+        }
+
+        return el;
     }
 
 }

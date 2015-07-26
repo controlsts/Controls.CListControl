@@ -4,59 +4,85 @@ body {
         box-sizing: border-box;
     }
 
-    .-f {
-        border: 1px dashed blue;
-    }
-
-    .-fd {
-        border: 1px dashed red;
-    }
-
-    .-afd-leaf {
-        border: 2px solid red;
-    }
+    //.-f {
+    //    border: 1px dashed blue;
+    //}
+    //
+    //.-fd {
+    //    border: 1px dashed red;
+    //}
+    //
+    //.-afd-leaf {
+    //    border: 2px solid red;
+    //}
 
     p {
         margin: 0px;
     }
 
     #idNote {
-        width: 300px;
+        width: 600px;
         height: 20px;
         line-height: 20px;
         font-size: 12px;
     }
 
     #idInfo {
-        width: 300px;
+        width: 600px;
         height: 20px;
         line-height: 20px;
         font-size: 12px;
     }
 
-    #horizontal {
-        width: 300px;
+    #idHorizontal {
+        width: 600px;
         height: 70px;
 
         .-list-item {
             width: 100px;
             height: 70px;
-            background-color: white;
-            font-size: 20px;
+            background-color: bisque;
+            font-size: 14px;
             color: black;
+            opacity: .5;
+            line-height: 70px;
+            text-align: center;
+            &.-fd {
+                box-sizing: border-box;
+                border-bottom: 2px solid black;
+            }
+            &.-afd-leaf {
+                opacity: 1;
+            }
         }
     }
 
-    #vertical {
-        width: 300px;
+    #idVertical {
+        width: 600px;
         height: 300px;
 
         .-list-item {
-            width: 300px;
+            width: 600px;
             height: 70px;
-            background-color: white;
+            background-color: aliceblue;
             font-size: 20px;
+            opacity: .5;
             color: black;
+            &.-afd-leaf {
+                opacity: 1;
+            }
+            .title {
+                padding: 0px 0px 0px 4px;
+                font-size: 18px;
+                font-style: oblique;
+            }
+            .desc {
+                padding: 4px 0px 0px 8px;
+                font-size: 12px;
+                line-height: 16px;
+                height: 32px;
+                overflow: hidden;;
+            }
         }
     }
 }

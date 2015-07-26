@@ -20,7 +20,7 @@ module gApp {
         controls: [
             note, focus,
             Controls.ListControl({
-                id: 'horizontal',
+                id: 'idHorizontal',
                 itemWidth: 100,
                 animation: true,
                 orientation: Controls.TParamOrientation.EHorizontal,
@@ -37,15 +37,17 @@ module gApp {
                 },
                 data: data,
                 dataDrawer: function (aKey:any, aItem:any, aEl:HTMLElement) {
-                    aEl.classList.add('horizontal');
-                    aEl.classList.add(aItem.type);
-                    aEl.style.opacity = '.5';
-                    aEl.innerText = aKey + ": " + aItem.text;
+
+                    Controls.Item({
+                        el: aEl,
+                        className: 'horizontal',
+                        innerText: aItem.text
+                    });
                     return Controls.TFocusInfo.KFocusAble;
                 }
             }),
             Controls.ListControl({
-                id: 'vertical',
+                id: 'idVertical',
                 itemHeight: 70,
                 animation: true,
                 orientation: Controls.TParamOrientation.EVertical,
@@ -62,10 +64,17 @@ module gApp {
                 },
                 data: data,
                 dataDrawer: function (aKey:any, aItem:any, aEl:HTMLElement) {
-                    aEl.classList.add('horizontal');
-                    aEl.classList.add(aItem.type);
-                    aEl.style.opacity = '.5';
-                    aEl.innerText = aKey + ": " + aItem.text;
+                    Controls.Item({
+                        el: aEl,
+                        className: 'vertical',
+                        children: [{
+                            className: 'title',
+                            innerText: aItem.text
+                        }, {
+                            className: 'desc',
+                            innerText: aItem.longText
+                        }]
+                    });
                     return Controls.TFocusInfo.KFocusAble;
                 }
             })

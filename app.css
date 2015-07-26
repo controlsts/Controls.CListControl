@@ -1,49 +1,66 @@
 body * {
   box-sizing: border-box;
 }
-body .-f {
-  border: 1px dashed blue;
-}
-body .-fd {
-  border: 1px dashed red;
-}
-body .-afd-leaf {
-  border: 2px solid red;
-}
 body p {
   margin: 0px;
 }
 body #idNote {
-  width: 300px;
+  width: 600px;
   height: 20px;
   line-height: 20px;
   font-size: 12px;
 }
 body #idInfo {
-  width: 300px;
+  width: 600px;
   height: 20px;
   line-height: 20px;
   font-size: 12px;
 }
-body #horizontal {
-  width: 300px;
+body #idHorizontal {
+  width: 600px;
   height: 70px;
 }
-body #horizontal .-list-item {
+body #idHorizontal .-list-item {
   width: 100px;
   height: 70px;
-  background-color: white;
-  font-size: 20px;
+  background-color: bisque;
+  font-size: 14px;
   color: black;
+  opacity: .5;
+  line-height: 70px;
+  text-align: center;
 }
-body #vertical {
-  width: 300px;
+body #idHorizontal .-list-item.-fd {
+  box-sizing: border-box;
+  border-bottom: 2px solid black;
+}
+body #idHorizontal .-list-item.-afd-leaf {
+  opacity: 1;
+}
+body #idVertical {
+  width: 600px;
   height: 300px;
 }
-body #vertical .-list-item {
-  width: 300px;
+body #idVertical .-list-item {
+  width: 600px;
   height: 70px;
-  background-color: white;
+  background-color: aliceblue;
   font-size: 20px;
+  opacity: .5;
   color: black;
+}
+body #idVertical .-list-item.-afd-leaf {
+  opacity: 1;
+}
+body #idVertical .-list-item .title {
+  padding: 0px 0px 0px 4px;
+  font-size: 18px;
+  font-style: oblique;
+}
+body #idVertical .-list-item .desc {
+  padding: 4px 0px 0px 8px;
+  font-size: 12px;
+  line-height: 16px;
+  height: 32px;
+  overflow: hidden;
 }
