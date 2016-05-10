@@ -1,13 +1,14 @@
 {
   "name": "controls.ts",
   "homepage": "https://github.com/controlsts/controls.ts",
-  "_release": "3e10bd9bd9",
+  "_release": "87896f2cb2",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "3e10bd9bd958d023b943b99e33d9a3cc6f7af08e"
+    "commit": "87896f2cb29b8e7ec66de138867b6eef87830ac5"
   },
   "_source": "https://github.com/controlsts/controls.ts.git",
   "_target": "*",
-  "_originalSource": "https://github.com/controlsts/controls.ts.git"
+  "_originalSource": "https://github.com/controlsts/controls.ts.git",
+  "_direct": true
 }

@@ -65,7 +65,7 @@ module gApp {
 //c2.setTransparentAnchor(true);
 //c2.setAnimationInterval(0.2);
     c2.setMaxKeyQueueCount(3);
-    c2.setDrawEfect('spreadOut');
+    c2.setDrawEffect('spreadOut');
     c2.connectStartToChange(EventHandlers, "_FocusStartToChange", EventHandlers._FocusStartToChange);
     c2.connectItemSelected(EventHandlers, "_ItemSelected", EventHandlers._ItemSelected);
     c2.connectFocusChanged(EventHandlers, "_FocusChanged", EventHandlers._FocusChanged);
@@ -86,7 +86,7 @@ module gApp {
     c3.setTransparentAnchor(true);
 //c3.setAnimationInterval(0.2);
     c3.setMaxKeyQueueCount(3);
-    c3.setDrawEfect('spreadOut');
+    c3.setDrawEffect('spreadOut');
     c3.connectStartToChange(EventHandlers, "_FocusStartToChange", EventHandlers._FocusStartToChange);
     c3.connectItemSelected(EventHandlers, "_ItemSelected", EventHandlers._ItemSelected);
     c3.connectFocusChanged(EventHandlers, "_FocusChanged", EventHandlers._FocusChanged);
@@ -95,24 +95,26 @@ module gApp {
     var root = new Controls.CLayoutGroupControl(document.body);
     root.setOrientation(Controls.TParamOrientation.EHorizontal);
     root.setOwnedChildControls(childControls);
-    root.draw();
 
-    document.body.addEventListener('keydown', function (e) {
-        var keyStr = e['keyIdentifier'];
-        var handled = root.doKey(keyStr);
-        console.log(handled);
+    Controls.runRoot(root);
 
-        var skip = {
-            'Up': true,
-            'Down': true,
-            'Left': true,
-            'Right': true
-        };
-
-        if (skip[keyStr]) {
-            e.stopPropagation();
-            e.preventDefault();
-        }
-    });
+    // root.draw();
+    // document.body.addEventListener('keydown', function (e) {
+    //     var keyStr = e['keyIdentifier'];
+    //     var handled = root.doKey(keyStr);
+    //     console.log(handled);
+    //
+    //     var skip = {
+    //         'Up': true,
+    //         'Down': true,
+    //         'Left': true,
+    //         'Right': true
+    //     };
+    //
+    //     if (skip[keyStr]) {
+    //         e.stopPropagation();
+    //         e.preventDefault();
+    //     }
+    // });
 
 }
